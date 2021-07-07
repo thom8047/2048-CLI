@@ -197,18 +197,21 @@ class Board:
         return board_str
 
     def changeBoard(self, dir):
-        if (dir == 'w') or (dir == 'a'):
-            for key in self.data:
-                for tile in Tile.dict_of_tiles:
-                    if (Tile.dict_of_tiles[tile].currentPos == key):
-                        Tile.dict_of_tiles[tile].merge = 0
-                        Tile.dict_of_tiles[tile].move(dir)
-        elif (dir == 's') or (dir == 'd'):
-            for key in self.data:
-                for tile in Tile.dict_of_tiles:
-                    if (Tile.dict_of_tiles[tile].currentPos == (17-key)):
-                        Tile.dict_of_tiles[tile].merge = 0
-                        Tile.dict_of_tiles[tile].move(dir)
+        if (dir in ['w', 's', 'd', 'a']):
+            for tile in Tile.dict_of_tiles:
+                Tile.dict_of_tiles[tile].merge = 0
+
+            
+            if (dir == 'w') or (dir == 'a'):
+                for key in self.data:
+                    for tile in Tile.dict_of_tiles:
+                        if (Tile.dict_of_tiles[tile].currentPos == key):
+                            Tile.dict_of_tiles[tile].move(dir)
+            elif (dir == 's') or (dir == 'd'):
+                for key in self.data:
+                    for tile in Tile.dict_of_tiles:
+                        if (Tile.dict_of_tiles[tile].currentPos == (17-key)):
+                            Tile.dict_of_tiles[tile].move(dir)
 
     def findSpot(self):
         spot = random.randrange(16)+1
