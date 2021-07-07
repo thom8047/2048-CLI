@@ -242,6 +242,11 @@ class Board:
         else:
             print("|" + f'{"LOS" :^23}' + "|")
         
+        cont = input("PLAY AGAIN [y/N]:")
+        if (cont == 'y'):
+            obj = Board()
+            obj.start()
+        
             
 
 
