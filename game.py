@@ -156,9 +156,8 @@ class Board:
                     9: '', 10: '', 11: '', 12: '',
                     13: '', 14: '', 15: '', 16: ''}
 
-        t0 = Tile(4, self.data, self);
+        t0 = Tile(9, self.data, self);
         t1 = Tile(12, self.data, self);
-        t1 = Tile(16, self.data, self, 4);
 
     def organizeBoard(self, dir):
         pass
@@ -173,7 +172,8 @@ class Board:
     def checkForWin(self):
         for key in self.data:
             if (self.data[key] == 2048):
-                return True
+                return None
+        return True
 
     def removeOld(self):
         removeList = []
@@ -197,9 +197,18 @@ class Board:
         return board_str
 
     def changeBoard(self, dir):
-        for tile in Tile.dict_of_tiles:
-            Tile.dict_of_tiles[tile].merge = 0
-            Tile.dict_of_tiles[tile].move(dir)
+        if (dir == 'w') or (dir == 'a'):
+            for key in self.data:
+                for tile in Tile.dict_of_tiles:
+                    if (Tile.dict_of_tiles[tile].currentPos == key):
+                        Tile.dict_of_tiles[tile].merge = 0
+                        Tile.dict_of_tiles[tile].move(dir)
+        elif (dir == 's') or (dir == 'd'):
+            for key in self.data:
+                for tile in Tile.dict_of_tiles:
+                    if (Tile.dict_of_tiles[tile].currentPos == (17-key)):
+                        Tile.dict_of_tiles[tile].merge = 0
+                        Tile.dict_of_tiles[tile].move(dir)
 
     def findSpot(self):
         spot = random.randrange(16)+1
@@ -211,21 +220,27 @@ class Board:
     def addTile(self):
         newSpot = self.findSpot()
         newTile = Tile(newSpot, self.data, self);
+
+    def getInput(self):
+        value = input()
+        if (value in ['w', 'a', 's', 'd']):
+            return value
+        else:
+            return self.getInput()
             
     def start(self):
-        while (self.checkForEmpty()):
+        while (self.checkForEmpty() and self.checkForWin()):
             print(self.getBoard())
-            dir = input()
+            dir = self.getInput()
             self.changeBoard(dir)
             self.removeOld()
 
             self.addTile()
 
-        if (self.checkForWin):
-            print("-------------- YOU WON --------------");
+        if not(self.checkForWin()):
+            print("|" + f'{"WIN" :^23}' + "|")
         else:
-            print("-------------- YOU LOST --------------");
-
+            print("|" + f'{"LOS" :^23}' + "|")
         
             
 
