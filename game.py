@@ -1,4 +1,5 @@
 import random
+import time
 
 class Tile:
     tile_count = 0
@@ -37,18 +38,19 @@ class Tile:
                     self.currentPos -= 4
                     self.data[self.currentPos] = self.value
                     
-                    # print(self.identity, ' : Value -> ', self.value, ' : Pos ->', self.currentPos)
+                    #print(self.identity, ' : Value -> ', self.value, ' : Pos ->', self.currentPos)
                     # print(self.board.getBoard())
+                    # print(f"{self.value} is currently merged: {self.merge}")
 
                     return True
                 elif (whoInMySpot.value == self.value):
-                    if whoInMySpot.merge == 1: return False;
+                    #if whoInMySpot.merge == 1: return False;
 
                     whoInMySpot.updateValue(whoInMySpot.value*2)
                     self.remove = True
                     self.data[self.currentPos] = ''
-                elif (self.merge == 1):
-                    pass;
+                # elif (self.merge == 1):
+                #     pass;
 
                 return False
             except Exception as err:
@@ -65,16 +67,17 @@ class Tile:
                     
                     # print(self.identity, ' : Value -> ', self.value, ' : Pos ->', self.currentPos)
                     # print(self.board.getBoard())
+                    # print(f"{self.value} is currently merged: {self.merge}")
 
                     return True
                 elif (whoInMySpot.value == self.value):
-                    if whoInMySpot.merge == 1: return False;
+                    #if whoInMySpot.merge == 1: return False;
 
                     whoInMySpot.updateValue(whoInMySpot.value*2)
                     self.remove = True
                     self.data[self.currentPos] = ''
-                elif (self.merge == 1):
-                    pass;
+                # elif (self.merge == 1):
+                #     pass;
 
                 return False
             except Exception as err:
@@ -94,16 +97,17 @@ class Tile:
                     
                     # print(self.identity, ' : Value -> ', self.value, ' : Pos ->', self.currentPos)
                     # print(self.board.getBoard())
+                    # print(f"{self.value} is currently merged: {self.merge}")
 
                     return True
                 elif (whoInMySpot.value == self.value):
-                    if whoInMySpot.merge == 1: return False;
+                    #if whoInMySpot.merge == 1: return False;
 
                     whoInMySpot.updateValue(whoInMySpot.value*2)
                     self.remove = True
                     self.data[self.currentPos] = ''
-                elif (self.merge == 1):
-                    pass;
+                # elif (self.merge == 1):
+                #     pass;
 
                 return False
             except Exception as err:
@@ -122,17 +126,18 @@ class Tile:
                     self.data[self.currentPos] = self.value
                     
                     #print(self.identity, ' : Value -> ', self.value, ' : Pos ->', self.currentPos)
-                    #print(self.board.getBoard())
+                    # print(self.board.getBoard())
+                    # print(f"{self.value} is currently merged: {self.merge}")
 
                     return True
                 elif (whoInMySpot.value == self.value):
-                    if whoInMySpot.merge == 1: return False;
+                    #if whoInMySpot.merge == 1: return False;
 
                     whoInMySpot.updateValue(whoInMySpot.value*2)
                     self.remove = True
                     self.data[self.currentPos] = ''
-                elif (self.merge == 1):
-                    pass;
+                # elif (self.merge == 1):
+                #     pass;
 
                 return False
             except Exception as err:
@@ -232,6 +237,7 @@ class Board:
             return self.getInput()
             
     def start(self):
+        start = time.time()
         while (self.checkForEmpty() and self.checkForWin()):
             print(self.getBoard())
             dir = self.getInput()
@@ -240,10 +246,11 @@ class Board:
 
             self.addTile()
 
+        amount = str(round((time.time() - start), 2))
         if not(self.checkForWin()):
-            print("|" + f'{"WIN" :^23}' + "|")
+            print("|" + f'{"WIN" :^23}' + "|\n|" + f'{amount+" sec" :^23}' + "|")
         else:
-            print("|" + f'{"LOS" :^23}' + "|")
+            print("|" + f'{"LOS" :^23}' + "|\n|" + f'{amount+" sec" :^23}' + "|")
         
         cont = input("PLAY AGAIN [y/N]:")
         if (cont == 'y'):
