@@ -1,6 +1,40 @@
 import random
 import time
 
+"""
+Using: 
+    # print(self.board.getBoard())
+    # print(f"{self.identity} is currently merged: {self.merge} and {whoInMySpot.identity} is currently merged: {whoInMySpot.merge}")
+after every if within the direction check in the canMove() function will tell you the board, and information about the self merging and
+the whoInMySpot merging. This will shed light on possible bugs, because it depicts every actual move the algorithm makes when moving each tile.
+
+
+############################
+# Task 1: 
+#     Create a Tile object and a Board object.
+#
+# Task 2: 
+#     Define initial values for both objects
+#
+# Task 3: 
+#     Make function that allows Tile object to understand where it is
+#     also make it capable of finding other tiles to get relations and merges
+#
+# Task 4: 
+#     Define function for Board object to understand the order of Tiles needing to be moved first.
+
+This gets tricky because of the use of a dictionary. To use a dictionary means we either have to read
+left to right or right to left. Both options will allow for us to check for up and right movement(reading left to right)
+or down and left movement(reading right to left). Thinking about it in this fasion allows us to scale the app, but we'd have
+to account for the size, i.e. *lengOfUpDown = math.sqrt(dict.len()+1)* and from their change our sub and addition values for the W, and S keys. 
+#
+# Task 5: 
+#     Understand the issue with using a dictionary and the extra code we have to write to check for where we compress and merge our tiles.
+#
+############################
+
+"""
+
 class Tile:
     tile_count = 0
     dict_of_tiles = {}
@@ -10,7 +44,7 @@ class Tile:
         self.data = data
         self.identity = Tile.tile_count
         self.remove = False
-        self.merge = 0
+        self.merge = False
         self.board = get_board
 
         Tile.dict_of_tiles[Tile.tile_count] = self
@@ -21,7 +55,7 @@ class Tile:
     def updateValue(self, val):
         self.value = val
         self.data[self.currentPos] = self.value
-        self.merge = 1
+        self.merge = True
 
     def getTileByPos(pos):
         for tile in Tile.dict_of_tiles:
@@ -37,25 +71,27 @@ class Tile:
                     self.data[self.currentPos] = ''
                     self.currentPos -= 4
                     self.data[self.currentPos] = self.value
-                    
-                    #print(self.identity, ' : Value -> ', self.value, ' : Pos ->', self.currentPos)
-                    # print(self.board.getBoard())
-                    # print(f"{self.value} is currently merged: {self.merge}")
-
                     return True
+
                 elif (whoInMySpot.value == self.value):
-                    #if whoInMySpot.merge == 1: return False;
+                    if whoInMySpot.merge == True: return False;
 
                     whoInMySpot.updateValue(whoInMySpot.value*2)
                     self.remove = True
                     self.data[self.currentPos] = ''
-                # elif (self.merge == 1):
-                #     pass;
+                    self.currentPos = whoInMySpot.currentPos
+                    self.merge = True
+
+                elif (self.merge == True):
+                    pass;
+
+                else:
+                    pass;
 
                 return False
-            except Exception as err:
-                #print(err)
+            except Exception:
                 return False
+                
         elif (direction == 's'):
             try:
                 whoInMySpot = Tile.getTileByPos(self.currentPos+4)
@@ -64,25 +100,27 @@ class Tile:
                     self.data[self.currentPos] = ''
                     self.currentPos += 4
                     self.data[self.currentPos] = self.value
-                    
-                    # print(self.identity, ' : Value -> ', self.value, ' : Pos ->', self.currentPos)
-                    # print(self.board.getBoard())
-                    # print(f"{self.value} is currently merged: {self.merge}")
-
                     return True
+
                 elif (whoInMySpot.value == self.value):
-                    #if whoInMySpot.merge == 1: return False;
+                    if whoInMySpot.merge == True: return False;
 
                     whoInMySpot.updateValue(whoInMySpot.value*2)
                     self.remove = True
                     self.data[self.currentPos] = ''
-                # elif (self.merge == 1):
-                #     pass;
+                    self.currentPos = whoInMySpot.currentPos
+                    self.merge = True
+
+                elif (self.merge == True):
+                    pass;
+
+                else:
+                    pass;
 
                 return False
-            except Exception as err:
-                #print(err)
+            except Exception:
                 return False
+                
         elif (direction == 'a'):
             if (self.currentPos in [5,9,13]): 
                 return False
@@ -94,25 +132,27 @@ class Tile:
                     self.data[self.currentPos] = ''
                     self.currentPos -= 1
                     self.data[self.currentPos] = self.value
-                    
-                    # print(self.identity, ' : Value -> ', self.value, ' : Pos ->', self.currentPos)
-                    # print(self.board.getBoard())
-                    # print(f"{self.value} is currently merged: {self.merge}")
-
                     return True
+
                 elif (whoInMySpot.value == self.value):
-                    #if whoInMySpot.merge == 1: return False;
+                    if whoInMySpot.merge == True: return False;
 
                     whoInMySpot.updateValue(whoInMySpot.value*2)
                     self.remove = True
                     self.data[self.currentPos] = ''
-                # elif (self.merge == 1):
-                #     pass;
+                    self.currentPos = whoInMySpot.currentPos
+                    self.merge = True
+
+                elif (self.merge == True):
+                    pass;
+
+                else:
+                    pass;
 
                 return False
-            except Exception as err:
-                #print(err)
+            except Exception:
                 return False
+                
         elif (direction == 'd'):
             if (self.currentPos in [4,8,12]): 
                 return False
@@ -124,24 +164,25 @@ class Tile:
                     self.data[self.currentPos] = ''
                     self.currentPos += 1
                     self.data[self.currentPos] = self.value
-                    
-                    #print(self.identity, ' : Value -> ', self.value, ' : Pos ->', self.currentPos)
-                    # print(self.board.getBoard())
-                    # print(f"{self.value} is currently merged: {self.merge}")
-
                     return True
+
                 elif (whoInMySpot.value == self.value):
-                    #if whoInMySpot.merge == 1: return False;
+                    if whoInMySpot.merge == True: return False;
 
                     whoInMySpot.updateValue(whoInMySpot.value*2)
                     self.remove = True
                     self.data[self.currentPos] = ''
-                # elif (self.merge == 1):
-                #     pass;
+                    self.currentPos = whoInMySpot.currentPos
+                    self.merge = True
+
+                elif (self.merge == True):
+                    pass;
+
+                else:
+                    pass;
 
                 return False
-            except Exception as err:
-                #print(err)
+            except Exception:
                 return False
 
     def move(self, direction):
@@ -150,9 +191,6 @@ class Tile:
             self.move(direction)
         else:
             return self.remove
-            # check to see if we're at the end of the board
-            # if not then we need to check if the tile that's in our direction is the same, then we can double
-    
 
 class Board:
     def __init__(self):
@@ -160,13 +198,6 @@ class Board:
                     5: '', 6: '', 7: '', 8: '',
                     9: '', 10: '', 11: '', 12: '',
                     13: '', 14: '', 15: '', 16: ''}
-
-        t0 = Tile(9, self.data, self);
-        t1 = Tile(12, self.data, self);
-
-    def organizeBoard(self, dir):
-        pass
-
 
     def checkForEmpty(self):
         for key in self.data:
@@ -204,7 +235,7 @@ class Board:
     def changeBoard(self, dir):
         if (dir in ['w', 's', 'd', 'a']):
             for tile in Tile.dict_of_tiles:
-                Tile.dict_of_tiles[tile].merge = 0
+                Tile.dict_of_tiles[tile].merge = False
 
             
             if (dir == 'w') or (dir == 'a'):
@@ -227,7 +258,7 @@ class Board:
 
     def addTile(self):
         newSpot = self.findSpot()
-        newTile = Tile(newSpot, self.data, self);
+        Tile(newSpot, self.data, self);
 
     def getInput(self):
         value = input()
@@ -262,5 +293,5 @@ class Board:
 
 if __name__ == '__main__':
     obj = Board()
+    t0, t1 = Tile(1, obj.data, obj), Tile(4, obj.data, obj)
     obj.start()
-        
